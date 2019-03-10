@@ -14,21 +14,16 @@
             width: 450px;
             height: 288px;
             margin:100px auto;
-            overflow: hidden;
             position: relative;
         }
-        #img-box{
-            width:2250px;
-            position: absolute;
-            left:0;
-            top:0;
-            /* left  属性 变化 过度效果 */
-            transition: left 1s ease ;
-        }
         #img-box img{
-            float: left;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease ;
         }
-
+        #img-box .selected{
+            opacity: 1;
+        }
         #btn-box{
             list-style: none;
             position: absolute;
@@ -74,69 +69,54 @@
 <body>
     <div id="container">
         <div id="img-box">
-            <img src="img/pic1.jpg">
+            <img class="selected" src="img/pic1.jpg">
             <img src="img/pic2.jpg">
             <img src="img/pic3.jpg">
             <img src="img/pic4.jpg">
-            <img src="img/pic1.jpg">
-
+            <img src="img/pic5.jpg">
         </div>
         <ul id="btn-box">
             <li class="active">1</li>
             <li>2</li>
             <li>3</li>
             <li>4</li>
+            <li>5</li>
         </ul>
         <span id="prev">&lt;</span>
         <span id="next">&gt;</span>
     </div>
 
     <script>
+        var oContainer = document.getElementById('container');
         var aLi = document.getElementsByTagName('li');
-        var oImgBox = document.getElementById('img-box');
+        var aImg = document.getElementsByTagName('img');
         var oNext = document.getElementById('next');
         var oPrev = document.getElementById('prev');
-        var oContainer = document.getElementById('container');
+        // 记录当前显示的索引
         var iNow = 0;
-        // 0  1      i
-        // 0  -750   -i*750
+        var timer;
         for(var i=0; i<aLi.length; i++){
-            aLi[i].index = i;
+            aLi[i].idx = i;
             aLi[i].onclick = function(){
-                // for(var j=0; j<aLi.length; j++){
+                // for(var j=0;j<aLi.length; j++){
                 //     aLi[j].className = "";
+                //     aImg[j].className = "";
                 // }
-                // // 1 按钮自己变色
-                // this.className = "active";
-                // // 图片 显示
-                // oImgBox.style.left = -this.index *750+"px";
-                // // oImgBox.style.transform = "translateX(-"+ this.index*750 +"px)";
-
-                change(this.index);
-                iNow = this.index;
+                // // this.className = "active";
+                // aLi[this.idx].className = "active" 
+                // aImg[this.idx].className = "selected";
+                change(this.idx);
+                iNow = this.idx;
             }
         }
-        oNext.onclick = function(){
+
+        oNext.onclick = function() {
             iNow++;
-            if(iNow == aLi.length+1){
+            // 点击到最后一张图  回到第一张图
+            if(iNow == aLi.length){
                 iNow = 0;
             }
             change(iNow);
-        }
-        function change(num){
-            var num1;
-            oImgBox.style.left = -num *450 +"px";
-            if(num==aLi.length){
-                num1=0;
-            }else{
-                num1=num;
-            }
-            for(var j=0; j<aLi.length; j++){
-                aLi[j].className = "";
-            }
-            aLi[num1].className ="active";
-              
-            
         }
         oPrev.onclick = function(){
             iNow--;
@@ -145,6 +125,15 @@
             }
             change(iNow);
         }
+        function change(num){
+            for(var i=0; i<aLi.length;i++){
+                aLi[i].className = "";
+                aImg[i].style.opacity = "0";
+            }
+            aLi[num].className = "active";
+            aImg[num].style.opacity = "1";
+        }
+        // 初始进来 开启一个定时器
         run();
         // 划入停止轮播  清楚定时器
         oContainer.onmouseover = function(){
@@ -157,12 +146,11 @@
         function run() {
             timer = setInterval(function(){
                 oNext.onclick();
-            },1000);
+            },2000);
         }
-
-
-
     </script>
+
+
 
 </body>
 </html>
