@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #tupian{
+            width: 450px;
+            height: 288px;
+            float: left;
+            position: relative;
+        }
+        #fangda{
+            width: 450px;
+            height: 288px;
+            float: left;
+            overflow: hidden;
+            position: relative;
+            
+        }
+        #fangda img{
+            width: 900px;
+            position: absolute;
+            display: none;
+        }
+        #xiaokuai{
+            width: 225px;
+            height: 144px;
+            opacity: 0.5;
+            background: #cccccc;
+            position: absolute;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+        <div id="tupian">
+            <div id="xiaokuai"></div>
+            <img src="img/pic1.jpg">
+        </div>
+        <div id="fangda">
+            <img src="img/pic1.jpg" id="fangda1">
+        </div> 
+
+    <script>
+        var oDiv1 = document.getElementById('tupian');
+        var oDiv2 = document.getElementById('xiaokuai');
+        var oDiv3 = document.getElementById('fangda1');
+        oDiv1.onmouseover = function(){
+            oDiv2.style.display = "block";
+            oDiv3.style.display = "block";
+            oDiv1.onmousemove = function(e){
+                var x = e.clientX - oDiv2.offsetWidth/2;
+                var y = e.clientY - oDiv2.offsetHeight/2;
+                if(x < 0){
+                    x = 0
+                }
+                if(y < 0){
+                    y = 0
+                }
+                // x、y轴最大值 
+                var xMax = oDiv1.offsetWidth - oDiv2.offsetWidth;
+                var yMax = oDiv1.offsetHeight - oDiv2.offsetHeight;
+                if(x > xMax){
+                    x = xMax;
+                }
+                if(y > yMax){
+                    y = yMax;
+                }
+                oDiv2.style.left = x +"px";
+                oDiv2.style.top = y +"px";
+                oDiv3.style.left = -2*x +"px";
+                oDiv3.style.top = -2*y +"px";
+            }
+        }
+        oDiv1.onmouseout = function(){
+            oDiv2.style.display='none';
+            oDiv3.style.display='none';
+
+        }
+        
+       
+        
+    
+    </script>
+
+
+</body>
+</html>
